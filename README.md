@@ -6,7 +6,9 @@ Welcome to the Vehicle Management CLI application! This tool allows you to creat
 
 ## Features
 ***Create Vehicles:*** Easily create new vehicles by specifying their attributes such as color, make, model, year, weight, top speed, and towing capacity for trucks.
+
 ***Manage Vehicles:*** View and manage the list of vehicles, with options to print details or perform specific actions like towing.
+
 ***Interactive CLI:*** User-friendly command-line interface powered by Inquirer.js for easy navigation.
 
 ## Getting Started
@@ -35,8 +37,11 @@ When prompted, you can choose to create a new vehicle or manage existing ones. F
 
 ### How to Use
 ***Create Vehicle:*** Choose the type of vehicle you want to create (Car, Truck, or Motorbike) and provide the required information.
+
 ***View Vehicle Details:*** Select a vehicle to view its details including VIN, color, make, model, year, weight, top speed, and for trucks, towing capacity.
+
 ***Tow a Vehicle:*** If you have selected a truck, you will have the option to tow another vehicle. The application will check if the truck can handle the weight of the vehicle being towed.
+
 ***Perform Other Actions:*** Depending on the vehicle type, you can also perform specific actions like wheelies for motorbikes.
 ### Example Interaction
 When you start the application, you will be greeted with:
