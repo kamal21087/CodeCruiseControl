@@ -1,11 +1,9 @@
-// Import the necessary classes and interfaces
 import Vehicle from './Vehicle.js';
 import Wheel from './Wheel.js';
 import AbleToTow from '../interfaces/AbleToTow.js';
 import Motorbike from './Motorbike.js';
 import Car from './Car.js';
 
-// Truck class that extends Vehicle class and implements AbleToTow interface
 class Truck extends Vehicle implements AbleToTow {
   vin: string;
   color: string;
@@ -25,11 +23,10 @@ class Truck extends Vehicle implements AbleToTow {
     year: number,
     weight: number,
     topSpeed: number,
-    towingCapacity: number,
-    wheels: Wheel[] = []
+    towingCapacity: number, // Correct order
+    wheels: Wheel[] = [] // Optional wheels
   ) {
     super();
-
     this.vin = vin;
     this.color = color;
     this.make = make;
@@ -78,5 +75,4 @@ class Truck extends Vehicle implements AbleToTow {
   }
 }
 
-// Export the Truck class as the default export
 export default Truck;

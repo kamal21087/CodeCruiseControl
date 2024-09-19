@@ -50,97 +50,68 @@ class Cli {
         },
       ])
       .then((answers) => {
-        if (answers.vehicleType === 'Car') {
-          this.createCar();
-        } else if (answers.vehicleType === 'Truck') {
-          this.createTruck();
-        } else if (answers.vehicleType === 'Motorbike') {
-          this.createMotorbike();
-        }
+        this.createVehicleOfType(answers.vehicleType);
       });
   }
 
-  createCar(): void {
-    inquirer
-      .prompt([
-        { type: 'input', name: 'color', message: 'Enter Color' },
-        { type: 'input', name: 'make', message: 'Enter Make' },
-        { type: 'input', name: 'model', message: 'Enter Model' },
-        { type: 'input', name: 'year', message: 'Enter Year' },
-        { type: 'input', name: 'weight', message: 'Enter Weight' },
-        { type: 'input', name: 'topSpeed', message: 'Enter Top Speed' },
-      ])
-      .then((answers) => {
-        const car = new Car(
-          Cli.generateVin(),
-          answers.color,
-          answers.make,
-          answers.model,
-          parseInt(answers.year),
-          parseInt(answers.weight),
-          parseInt(answers.topSpeed),
-          []
-        );
-        this.vehicles.push(car);
-        this.selectedVehicleVin = car.vin;
-        this.performActions();
-      });
-  }
+  private async createVehicleOfType(type: 'Car' | 'Truck' | 'Motorbike'): Promise<void> {
+    const questions = [
+      { type: 'input', name: 'color', message: 'Enter Color' },
+      { type: 'input', name: 'make', message: 'Enter Make' },
+      { type: 'input', name: 'model', message: 'Enter Model' },
+      { type: 'input', name: 'year', message: 'Enter Year' },
+      { type: 'input', name: 'weight', message: 'Enter Weight' },
+      { type: 'input', name: 'topSpeed', message: 'Enter Top Speed' },
+    ];
 
-  createTruck(): void {
-    inquirer
-      .prompt([
-        { type: 'input', name: 'color', message: 'Enter Color' },
-        { type: 'input', name: 'make', message: 'Enter Make' },
-        { type: 'input', name: 'model', message: 'Enter Model' },
-        { type: 'input', name: 'year', message: 'Enter Year' },
-        { type: 'input', name: 'weight', message: 'Enter Weight' },
-        { type: 'input', name: 'topSpeed', message: 'Enter Top Speed' },
-        { type: 'input', name: 'towingCapacity', message: 'Enter Towing Capacity' },
-      ])
-      .then((answers) => {
-        const truck = new Truck(
-          Cli.generateVin(),
-          answers.color,
-          answers.make,
-          answers.model,
-          parseInt(answers.year),
-          parseInt(answers.weight),
-          parseInt(answers.topSpeed),
-          [],
-          parseInt(answers.towingCapacity)
-        );
-        this.vehicles.push(truck);
-        this.selectedVehicleVin = truck.vin;
-        this.performActions();
-      });
-  }
+    if (type === 'Truck') {
+      questions.push({ type: 'input', name: 'towingCapacity', message: 'Enter Towing Capacity' });
+    }
 
-  createMotorbike(): void {
-    inquirer
-      .prompt([
-        { type: 'input', name: 'color', message: 'Enter Color' },
-        { type: 'input', name: 'make', message: 'Enter Make' },
-        { type: 'input', name: 'model', message: 'Enter Model' },
-        { type: 'input', name: 'year', message: 'Enter Year' },
-        { type: 'input', name: 'weight', message: 'Enter Weight' },
-        { type: 'input', name: 'topSpeed', message: 'Enter Top Speed' },
-      ])
-      .then((answers) => {
-        const motorbike = new Motorbike(
-          Cli.generateVin(),
-          answers.color,
-          answers.make,
-          answers.model,
-          parseInt(answers.year),
-          parseInt(answers.weight),
-          parseInt(answers.topSpeed),
-          []
-        );
-        this.vehicles.push(motorbike);
-        this.selectedVehicleVin = motorbike.vin;
-        this.performActions();
-      });
+    const answers = await inquirer.prompt(questions);
+    
+    let vehicle;
+    if (type === 'Car') {
+      vehicle = new Car(
+        Cli.generateVin(),
+        answers.color,
+        answers.make,
+        answers.model,
+        parseInt(answers.year),
+        parseInt(answers.weight),
+        parseInt(answers.topSpeed),
+        [] // No need for 'as Wheel[]'
+      );
+    } else if (type === 'Truck') {
+      vehicle = new Truck(
+        Cli.generateVin(),
+        answers.color,
+        answers.make,
+        answers.model,
+        parseInt(answers.year),
+        parseInt(answers.weight),
+        parseInt(answers.topSpeed),
+        parseInt(answers.towingCapacity), // Correct order
+        [] // No need for 'as Wheel[]'
+      );
+    } else if (type === 'Motorbike') {
+      vehicle = new Motorbike(
+        Cli.generateVin(),
+        answers.color,
+        answers.make,
+        answers.model,
+        parseInt(answers.year),
+        parseInt(answers.weight),
+        parseInt(answers.topSpeed),
+        [] // No need for 'as Wheel[]'
+      );
+    }
+
+    if (vehicle) {
+      this.vehicles.push(vehicle);
+      this.selectedVehicleVin = vehicle.vin;
+      this.performActions();
+    }
   }
 
   performActions(): void {
